@@ -10,19 +10,20 @@ CSV载入模块在vnpy根目录下vnpy\app\csv_loader文件夹内，engine.py里
 - CSV表头信息：日期时间、开盘价、最高价、最低价、收盘价、成交量
 
 ```
-        self.file_path: str = ''
+        self.file_path: str = ""
 
         self.symbol: str = ""
         self.exchange: Exchange = Exchange.SSE
         self.interval: Interval = Interval.MINUTE
 
-        self.datetime_head: str = ''
-        self.open_head: str = ''
-        self.close_head: str = ''
-        self.low_head: str = ''
-        self.high_head: str = ''
-        self.volume_head: str = ''
+        self.datetime_head: str = ""
+        self.open_head: str = ""
+        self.close_head: str = ""
+        self.low_head: str = ""
+        self.high_head: str = ""
+        self.volume_head: str = ""
 ```
+以SQL数据库为例：把上期所的IF1909的历史数据插入到数据库中，那么合约代码应该填写rb1909，交易所中填写SHFE，在本地数据库中会有symbol和exchange两个键值用于索引。
 
 &nbsp;
 
@@ -30,7 +31,7 @@ CSV载入模块在vnpy根目录下vnpy\app\csv_loader文件夹内，engine.py里
 
 从文件路径中读取CSV文件，然后在每一次迭代中载入数据到数据库中。
 ```
-        with open(file_path, 'rt') as f:
+        with open(file_path, "rt") as f:
             reader = csv.DictReader(f)
 
             for item in reader:
@@ -40,7 +41,7 @@ CSV载入模块在vnpy根目录下vnpy\app\csv_loader文件夹内，engine.py里
 
 载入数据的方法可以分成2类：
 - 直接插入：合约代码、交易所、K线周期、成交量、开盘价、最高价、最低价、收盘价、接口名称
-- 需要处理：日期时间（根据其相应的时间格式，通过strptime()转化成时间元祖）、vt_symbol(合约代码.交易所格式，如rb1905.SHFE)
+- 需要处理：日期时间（根据其相应的时间格式，通过strptime()转化成时间元组）、vt_symbol(合约代码.交易所格式，如rb1909.SHFE)
 
 注意：db_bar.replace()用于数据更新，即把旧的数据替换成新的。
 ```
